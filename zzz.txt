@@ -1,0 +1,65 @@
+SOURCE: https://www.youtube.com/playlist?list=PLzMcBGfZo4-n4vJJybUVV3Un_NFS5EOgX
+
+### app/docker/docker-compose.yaml
+services:
+    python-service:
+        build:
+            context: .
+            dockerfile: ./python/Dockerfile
+        container_name: flask1-container
+        volumes:
+            - ./../:/var/www/flask1/
+        ports: ['5000:5000']
+        develop:
+            watch:
+                - action: sync
+                  path: ./../
+                  target: ./../
+        networks:
+            - flask1-network
+networks:
+    flask1-network:
+        driver: bridge
+
+
+### app/docker/python/Dockerfile
+FROM python:3.12
+WORKDIR /var/www/flask1
+RUN python -m ensurepip --upgrade
+RUN python -m pip install --upgrade pip
+RUN pip install flask
+CMD ["python", "-m", "flask", "run", "--debug", "--host=0.0.0.0"]
+
+
+### app/app.py
+from flask import Flask, redirect, url_for, render_template
+
+app = Flask(__name__)
+
+@app.route('/<name>')
+def hello(name):
+    return render_template('index.html', name=name)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
+
+SOURCE: https://docs.docker.com/compose/gettingstarted/#step-4-edit-the-compose-file-to-use-compose-watch
+RUN CONTAINER IN watch MODE, IN ORDER TO SEE CHANGES AFTER EACH CODE MODIFICATION:
+app/$ docker compose -f docker/docker-compose.yaml watch
+
+
+
+### github repository
+### git init
+### git remote add origin https://github.com/dancostinel/flask1.git
+### git branch -M master
+### app/.gitignore
+    ./.idea
+
+### git add docker/ .gitignore app.py
+### git commit -m "init"
+### git push -u origin master
+
+### access in browser: localhost:5000/dan   # @app.route('/<name>')
+                                            # def hello(name):
