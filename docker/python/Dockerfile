@@ -1,5 +1,5 @@
 FROM python:3.12
-WORKDIR /var/www/flask1
+WORKDIR /var/www/flask-tech-with-tim
 RUN python -m ensurepip --upgrade
 RUN python -m pip install --upgrade pip
 RUN pip install flask

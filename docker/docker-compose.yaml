@@ -1,19 +1,19 @@
 services:
-    python-service:
+    python-tech-with-tim-service:
         build:
             context: .
             dockerfile: ./python/Dockerfile
-        container_name: flask1-container
+        container_name: flask-tech-with-tim-container
         volumes:
-            - ./../:/var/www/flask1/
-        ports: ['5000:5000']
+            - ./../:/var/www/flask-tech-with-tim/
+        ports: ['5001:5000']
         develop:
             watch:
                 - action: sync
                   path: ./../
                   target: ./../
         networks:
-            - flask1-network
+            - flask-tech-with-tim-network
 networks:
-    flask1-network:
+    flask-tech-with-tim-network:
         driver: bridge
