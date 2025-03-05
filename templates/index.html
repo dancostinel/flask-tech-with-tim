@@ -3,5 +3,6 @@
 {% block title %}Homepage{% endblock %}
 
 {% block content %}
-  <p>Hello, {{ name }}. This is the flask app!</p>
+  <p>Hello, <b>{{ name }}</b>! This is the flask app!</p>
+<a href="{{ url_for('login') }}">Login</a>
 {% endblock %}
